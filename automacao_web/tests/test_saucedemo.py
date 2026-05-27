@@ -5,7 +5,6 @@ from automacao_web.pages.sauce_pages import SaucePages
 
 @pytest.fixture
 def driver():
-    # Configuração headless para rodar na Pipeline (CI/CD)
     options = Options()
     options.add_argument("--headless=new")  
     options.add_argument("--no-sandbox")
@@ -19,8 +18,6 @@ def driver():
 
 def test_deve_realizar_compra_com_sucesso(driver):
     page = SaucePages(driver)
-    
-    # Execução do fluxo E2E baseado no Page Objects
     page.realizar_login("standard_user", "secret_sauce")
     page.adicionar_produto_ao_carrinho()
     page.ir_para_checkout()
