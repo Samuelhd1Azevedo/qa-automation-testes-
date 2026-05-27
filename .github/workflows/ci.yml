@@ -1,0 +1,38 @@
+name: Pipeline de Testes Automatizados (Python)
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  test-api:
+    name: Executar Testes de API
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Instalar Dependências da API
+        run: pip install -r automacao_api/requirements.txt
+      - name: Executar Pytest API
+        run: pytest automacao_api/tests/
+
+  test-web:
+    name: Executar Testes Web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Instalar Dependências Web
+        run: pip install -r automacao_web/requirements.txt
+      - name: Executar Pytest Web (Headless)
+        run: PYTHONPATH=. pytest automacao_web/tests/
